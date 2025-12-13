@@ -5,6 +5,7 @@ import { User, loginUser, loginWithToken, verifyPaystackPayment } from '../servi
 import { BookOpen, AlertCircle, Lock, User as UserIcon, HelpCircle, ArrowLeft, GraduationCap, CheckCircle, Moon, Sun, Key, Smartphone, ShieldCheck, CreditCard, ChevronRight, Calendar, Hash, Banknote, Shield, MessageCircle, Copy, Building2, WifiOff, Check } from 'lucide-react';
 import { ExamType } from '../types';
 import { PAYSTACK_PUBLIC_KEY } from '../services/config';
+import { JambLogo, WaecLogo, JointLogo } from './ExamLogos';
 
 interface Props {
   onLogin: (user: User, examType: ExamType) => void;
@@ -195,6 +196,12 @@ export const LoginScreen: React.FC<Props> = ({ onLogin, theme, toggleTheme, isOn
       });
   };
 
+  const getPackageLogo = (id: PackageType) => {
+      if (id === 'JAMB') return <JambLogo className="w-8 h-8 md:w-10 md:h-10 shrink-0" />;
+      if (id === 'WAEC') return <WaecLogo className="w-8 h-8 md:w-10 md:h-10 shrink-0" />;
+      return <JointLogo className="w-12 h-8 md:w-14 md:h-10 shrink-0" />;
+  };
+
   return (
     <div className="min-h-screen flex flex-col font-sans relative bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
       
@@ -379,7 +386,10 @@ export const LoginScreen: React.FC<Props> = ({ onLogin, theme, toggleTheme, isOn
                                                         onClick={() => setSelectedPackage(pkg.id)}
                                                         className={`p-3 rounded-lg border-2 cursor-pointer transition-all flex justify-between items-center ${selectedPackage === pkg.id ? 'border-green-600 bg-green-50 dark:bg-green-900/20' : 'border-gray-200 dark:border-gray-700 hover:border-green-300'}`}
                                                     >
-                                                        <p className={`font-bold text-sm ${selectedPackage === pkg.id ? 'text-green-800 dark:text-green-300' : 'text-gray-700 dark:text-gray-200'}`}>{pkg.title}</p>
+                                                        <div className="flex items-center gap-3">
+                                                            {getPackageLogo(pkg.id)}
+                                                            <p className={`font-bold text-sm ${selectedPackage === pkg.id ? 'text-green-800 dark:text-green-300' : 'text-gray-700 dark:text-gray-200'}`}>{pkg.title}</p>
+                                                        </div>
                                                         <div className="flex items-center gap-2">
                                                             <p className="font-black text-sm text-gray-800 dark:text-white">₦{pkg.price.toLocaleString()}</p>
                                                             {selectedPackage === pkg.id && <CheckCircle size={14} className="text-green-600"/>}

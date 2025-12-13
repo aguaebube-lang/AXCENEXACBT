@@ -4,6 +4,7 @@ import { ExamSession, Question, Subject } from '../types';
 import { Timer, ChevronLeft, ChevronRight, CheckSquare, Flag, Calculator as CalcIcon, X, Delete, GraduationCap, Grid, Maximize, Minimize, AlertCircle, Keyboard, MousePointer2, Moon, Sun, BarChart } from 'lucide-react';
 import { Button } from './Button';
 import { User } from '../services/auth';
+import { JambLogo, WaecLogo } from './ExamLogos';
 
 interface Props {
   session: ExamSession;
@@ -216,6 +217,12 @@ export const ExamSimulator: React.FC<Props> = ({ session: initialSession, onSubm
     }
   };
 
+  const getExamLogo = () => {
+      if (session.examType === 'JAMB') return <JambLogo className="w-8 h-8 md:w-10 md:h-10" />;
+      if (session.examType === 'WAEC') return <WaecLogo className="w-8 h-8 md:w-10 md:h-10" />;
+      return <GraduationCap className="text-green-800 dark:text-green-400 w-6 h-6 md:w-8 md:h-8"/>;
+  };
+
   // Progress Calculation
   const totalQuestions = Object.values(session.questions).flat().length;
   const answeredCount = Object.keys(session.answers).length;
@@ -266,7 +273,9 @@ export const ExamSimulator: React.FC<Props> = ({ session: initialSession, onSubm
           <div className="fixed inset-0 bg-green-900/95 z-[60] flex items-center justify-center p-4">
               <div className="bg-white dark:bg-gray-800 max-w-2xl w-full rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
                   <div className="bg-green-800 dark:bg-green-900 p-4 md:p-6 text-white text-center border-b-4 border-yellow-500 shrink-0">
-                      <GraduationCap size={40} className="mx-auto mb-2 text-yellow-400"/>
+                      <div className="mx-auto mb-2 w-fit bg-white rounded-full p-1">
+                        {getExamLogo()}
+                      </div>
                       <h2 className="text-xl md:text-2xl font-bold uppercase tracking-wide">{session.examType} Instructions</h2>
                       <p className="text-green-200 text-xs md:text-sm">Please read carefully before proceeding</p>
                   </div>
@@ -318,7 +327,7 @@ export const ExamSimulator: React.FC<Props> = ({ session: initialSession, onSubm
       <header className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 px-2 md:px-4 py-2 flex justify-between items-center shadow-sm border-t-4 border-yellow-500 z-20 transition-colors relative shrink-0">
         <div className="flex items-center gap-2 md:gap-4 overflow-hidden">
           <div className="flex items-center gap-2 md:border-r border-gray-200 dark:border-gray-700 md:pr-4 md:mr-2 shrink-0">
-             <GraduationCap className="text-green-800 dark:text-green-400 w-6 h-6 md:w-8 md:h-8"/>
+             {getExamLogo()}
              <span className="font-bold text-green-900 dark:text-green-300 tracking-tight hidden md:inline">EBUS EDU (EEC)</span>
           </div>
           
