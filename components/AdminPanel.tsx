@@ -621,8 +621,8 @@ export const AdminPanel: React.FC<Props> = ({ onBack, theme, toggleTheme, isOnli
 
                         <div className="flex-1 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col">
                             <div className="p-4 bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600 font-bold text-sm text-gray-700 dark:text-gray-200">Recent Tokens</div>
-                            <div className="overflow-y-auto flex-1 p-0">
-                                <table className="w-full text-sm text-left">
+                            <div className="overflow-auto flex-1 p-0 w-full">
+                                <table className="w-full text-sm text-left whitespace-nowrap md:whitespace-normal">
                                     <thead className="bg-gray-50 dark:bg-gray-700 text-xs uppercase text-gray-500 sticky top-0">
                                         <tr>
                                             <th className="px-4 py-3">Code</th>
@@ -715,8 +715,8 @@ export const AdminPanel: React.FC<Props> = ({ onBack, theme, toggleTheme, isOnli
                                 />
                             </div>
                         </div>
-                        <div className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm overflow-y-auto">
-                            <table className="w-full text-sm text-left text-gray-600 dark:text-gray-300">
+                        <div className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-auto">
+                            <table className="w-full text-sm text-left text-gray-600 dark:text-gray-300 whitespace-nowrap md:whitespace-normal">
                                 <thead className="text-xs text-gray-500 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700 sticky top-0">
                                     <tr>
                                         <th className="px-4 py-3">Exam</th>
@@ -753,8 +753,8 @@ export const AdminPanel: React.FC<Props> = ({ onBack, theme, toggleTheme, isOnli
                                      <Button className="w-full bg-green-700 text-white">Register</Button>
                                  </form>
                              </div>
-                             <div className="flex-1 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-y-auto max-h-[500px]">
-                                 <table className="w-full text-sm text-left">
+                             <div className="flex-1 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-auto max-h-[500px]">
+                                 <table className="w-full text-sm text-left whitespace-nowrap md:whitespace-normal">
                                      <thead className="bg-gray-50 dark:bg-gray-700 text-xs uppercase text-gray-500">
                                          <tr><th className="px-6 py-3">Name</th><th className="px-6 py-3">Reg No</th><th className="px-6 py-3 text-right">Action</th></tr>
                                      </thead>
