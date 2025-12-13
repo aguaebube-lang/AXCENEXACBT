@@ -104,6 +104,11 @@ const updateLocalToken = (tokenCode: string, updates: Partial<TokenInfo>) => {
     tokens = tokens.map(t => t.token_code === tokenCode ? { ...t, ...updates } : t);
     localStorage.setItem(LOCAL_TOKENS_KEY, JSON.stringify(tokens));
 };
+const deleteLocalToken = (tokenCode: string) => {
+    let tokens = getLocalTokens();
+    tokens = tokens.filter(t => t.token_code !== tokenCode);
+    localStorage.setItem(LOCAL_TOKENS_KEY, JSON.stringify(tokens));
+};
 const getLocalStudents = (): User[] => {
     try { return JSON.parse(localStorage.getItem(LOCAL_USERS_KEY) || '[]'); } catch(e) { return []; }
 };
@@ -346,6 +351,20 @@ export const resetTokenDevice = async (tokenCode: string) => {
             return await apiRequest('/api/admin/reset-token-device', 'POST', { tokenCode });
         } catch(err: any) {
             console.warn("Online reset failed (saved locally)");
+        }
+    }
+    return { success: true };
+};
+
+export const deleteToken = async (tokenCode: string) => {
+    // Always delete locally
+    deleteLocalToken(tokenCode);
+
+    if (!FORCE_OFFLINE) {
+        try {
+            await apiRequest(`/api/admin/tokens/${tokenCode}`, 'DELETE');
+        } catch(err: any) {
+            console.warn("Online delete failed (deleted locally)");
         }
     }
     return { success: true };

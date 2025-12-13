@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Subject, Question, ExamType } from '../types';
 import { addQuestionToBank, getBankStats, resetDatabase, clearStudentResults, addBulkQuestions, fetchAllQuestions, deleteQuestion } from '../services/db';
-import { registerStudent, getAllStudents, deleteStudent, User, changePassword, generateManualToken, generateLocalTokenImmediate, getAllTokens, TokenInfo, updateAdminCredentials, toggleTokenStatus, resetTokenDevice } from '../services/auth';
+import { registerStudent, getAllStudents, deleteStudent, User, changePassword, generateManualToken, generateLocalTokenImmediate, getAllTokens, TokenInfo, updateAdminCredentials, toggleTokenStatus, resetTokenDevice, deleteToken } from '../services/auth';
 import { LogOut, Upload, Save, Database, FileText, CheckCircle, AlertTriangle, RefreshCw, Trash2, ShieldAlert, Users, Plus, Settings, List, Moon, Sun, Search, GraduationCap, Banknote, Copy, Check, Ban, Phone, User as UserIcon, Smartphone, WifiOff } from 'lucide-react';
 import { Button } from './Button';
 
@@ -230,6 +230,17 @@ export const AdminPanel: React.FC<Props> = ({ onBack, theme, toggleTheme, isOnli
             alert(e.message);
         }
     }
+  };
+
+  const handleDeleteToken = async (tokenCode: string) => {
+      if(confirm(`Are you sure you want to PERMANENTLY DELETE token ${tokenCode}? This cannot be undone.`)) {
+          try {
+              await deleteToken(tokenCode);
+              await loadTokens();
+          } catch(e: any) {
+              alert(e.message);
+          }
+      }
   };
 
   const handleDeleteStudent = async (username: string) => {
@@ -666,6 +677,13 @@ export const AdminPanel: React.FC<Props> = ({ onBack, theme, toggleTheme, isOnli
                                                             title={t.is_active ? "Deactivate Token" : "Activate Token"}
                                                         >
                                                             {t.is_active ? <Ban size={16}/> : <CheckCircle size={16}/>}
+                                                        </button>
+                                                        <button 
+                                                            onClick={() => handleDeleteToken(t.token_code)}
+                                                            className="p-1 rounded text-red-500 hover:bg-red-50"
+                                                            title="Delete Token"
+                                                        >
+                                                            <Trash2 size={16}/>
                                                         </button>
                                                     </div>
                                                 </td>

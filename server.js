@@ -203,6 +203,15 @@ app.post('/api/admin/reset-token-device', async (req, res) => {
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+app.delete('/api/admin/tokens/:tokenCode', async (req, res) => {
+    const { tokenCode } = req.params;
+    try {
+        const { error } = await supabase.from('access_tokens').delete().eq('token_code', tokenCode);
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 app.get('/api/admin/tokens', async (req, res) => {
     try {
         const { data, error } = await supabase.from('access_tokens').select('*').order('created_at', { ascending: false }).limit(50);
